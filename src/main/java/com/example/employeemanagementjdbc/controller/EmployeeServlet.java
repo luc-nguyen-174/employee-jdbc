@@ -36,10 +36,24 @@ public class EmployeeServlet extends HttpServlet {
                 showDeleteForm(request, response);
                 break;
             case "view":
+                viewEmployee(request, response);
                 break;
             default:
                 listEmployees(request, response);
                 break;
+        }
+    }
+
+    private void viewEmployee(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Employee employee = employeeDAO.selectEmployee(id);
+        request.setAttribute("employee", employee);
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/employee/view.jsp");
+        try {
+            requestDispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 

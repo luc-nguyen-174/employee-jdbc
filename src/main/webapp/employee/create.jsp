@@ -1,9 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang = "vi">
+<html>
 <head>
     <title>Employees Management Application</title>
-    <meta charset='UTF-8'/>
 </head>
 <body>
 <center>

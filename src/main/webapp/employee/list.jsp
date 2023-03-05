@@ -1,9 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head lang="vi">
+<head>
     <title>Employee Management Application</title>
-    <meta charset='UTF-8'/>
 </head>
 <body>
 <center>
@@ -39,6 +38,7 @@
                 <td>
                     <a href="/employees?action=edit&id=${employee.id}">Edit</a>
                     <a href="/employees?action=delete&id=${employee.id}">Delete</a>
+                    <a href="/employees?action=view&id=${employee.id}">View</a>
                 </td>
             </tr>
         </c:forEach>
