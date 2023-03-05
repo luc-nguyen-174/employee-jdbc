@@ -18,6 +18,7 @@ public class EmployeeServlet extends HttpServlet {
         employeeDAO = new EmployeeDAO();
     }
 
+    /*------------------------------Method Get-------------------------------*/
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
@@ -32,12 +33,26 @@ public class EmployeeServlet extends HttpServlet {
                 showUpdateForm(request, response);
                 break;
             case "delete":
+                showDeleteForm(request, response);
                 break;
             case "view":
                 break;
             default:
                 listEmployees(request, response);
                 break;
+        }
+    }
+
+    private void showDeleteForm(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Employee employee = employeeDAO.selectEmployee(id);
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/employee/delete.jsp");
+        request.setAttribute("employee", employee);
+        try {
+            requestDispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -48,10 +63,10 @@ public class EmployeeServlet extends HttpServlet {
 
     private void showUpdateForm(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Employee existingEmployee = employeeDAO.selectEmployee(id);
+        Employee employee = employeeDAO.selectEmployee(id);
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/employee/edit.jsp");
-        request.setAttribute("employee", existingEmployee);
+        request.setAttribute("employee", employee);
         try {
             requestDispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
@@ -68,7 +83,7 @@ public class EmployeeServlet extends HttpServlet {
 
 
 
-    /*--------------------------------------------------------------*/
+    /*------------------------------Method Post-------------------------------*/
 
 
     @Override
@@ -85,9 +100,28 @@ public class EmployeeServlet extends HttpServlet {
                 editEmployee(request, response);
                 break;
             case "delete":
+                deleteEmployee(request, response);
                 break;
             default:
                 break;
+        }
+    }
+
+    private void deleteEmployee(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        try {
+            employeeDAO.deleteEmployee(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<Employee> employeeList = employeeDAO.selectAllEmployees();
+        request.setAttribute("employeeList", employeeList);
+        request.setAttribute("message","Employee was deleted successfully");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/employee/delete.jsp");
+        try {
+            requestDispatcher.forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -133,6 +167,7 @@ public class EmployeeServlet extends HttpServlet {
             e.printStackTrace();
         }
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/employee/edit.jsp");
+        request.setAttribute("message", "Customer information was updated");
         try {
             requestDispatcher.forward(request, response);
         } catch (ServletException | IOException e) {

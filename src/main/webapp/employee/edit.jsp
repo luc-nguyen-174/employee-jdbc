@@ -1,12 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<html lang="vi">
 <head>
     <title>Employee Management Application</title>
+    <meta charset='UTF-8'/>
 </head>
 <body>
 <center>
     <h1>Employee Management</h1>
+    <p>
+        <c:if test="${message != null}">
+            <h2 class="message">${message}</h2>
+        </c:if>
+    </p>
     <h2>
         <a href="/employees">Back To List All Users</a>
     </h2>
